@@ -2,15 +2,47 @@
 
 ## 📌 Project Overview
 
-This project demonstrates an end-to-end Azure Data Engineering solution for a retail organization using Microsoft Azure cloud services.
+Retail Sales Lakehouse Pipeline is an end-to-end Azure Data Engineering project that demonstrates how operational retail data is ingested, transformed, and analyzed using Microsoft Azure cloud services.
 
-The objective is to design a scalable Lakehouse architecture capable of ingesting daily retail sales data, transforming it through Bronze, Silver, and Gold layers, and serving analytics through Azure Synapse and Power BI.
+The project follows enterprise data engineering practices by implementing a modern Lakehouse architecture using Azure Data Lake Storage Gen2, Azure Data Factory, Azure Databricks, Delta Lake, Azure Synapse Analytics, and Power BI.
+
+The objective is to build a scalable, production-inspired analytics platform capable of ingesting retail sales data, transforming it through Bronze, Silver, and Gold layers, and serving business insights through interactive dashboards.
 
 ---
 
-## 🏗️ Current Progress
+# 🏢 Business Scenario
 
-### ✅ Phase 1 - Infrastructure Setup
+A retail organization receives daily operational data from multiple warehouses and stores.
+
+Current challenges include:
+
+- Manual Excel reporting
+- Inconsistent business metrics
+- Lack of centralized analytics
+- Poor visibility into customer behavior
+- Inventory planning challenges
+- Time-consuming report generation
+
+This project modernizes the analytics platform using Microsoft Azure.
+
+---
+
+# 🎯 Project Objectives
+
+- Build an enterprise-scale Azure Lakehouse architecture.
+- Implement Bronze, Silver and Gold data layers.
+- Design an end-to-end ETL pipeline using Azure Data Factory.
+- Perform data transformation using PySpark in Azure Databricks.
+- Store curated datasets in Delta Lake format.
+- Enable analytical querying through Azure Synapse.
+- Build reusable semantic models.
+- Develop executive dashboards using Power BI.
+
+---
+
+# 🏗️ Current Progress
+
+## ✅ Phase 1 - Foundation & Infrastructure
 
 Completed
 
@@ -20,10 +52,37 @@ Completed
 - Archive, Logs and Rejected Containers
 - Enterprise Folder Structure
 - GitHub Repository Initialization
+- Business Requirement Analysis
+- Source System Design
+- OLTP Schema v1.0 Finalized
 
 ---
 
-## ☁️ Azure Resources
+# 🏢 Source System
+
+The source system for this project is a normalized MySQL 8 operational database representing a retail organization.
+
+### Master Tables
+
+- Customer
+- Product
+- Warehouse
+
+### Operational Tables
+
+- Inventory
+
+### Transaction Tables
+
+- Orders
+- Order Items
+- Payments
+
+This database acts as the source system for Azure Data Factory ingestion.
+
+---
+
+# ☁️ Azure Resources
 
 | Resource | Status |
 |----------|--------|
@@ -64,15 +123,27 @@ bronze/
     │   └── master/
     │       └── products.csv
     │
-    ├── stores/
+    ├── warehouses/
     │   └── master/
-    │       └── stores.csv
+    │       └── warehouses.csv
     │
-    └── inventory/
+    ├── inventory/
+    │   └── 2026/
+    │       └── 07/
+    │           └── 11/
+    │               └── inventory_20260711.csv
+    │
+    ├── order_items/
+    │   └── 2026/
+    │       └── 07/
+    │           └── 11/
+    │               └── order_items_20260711.csv
+    │
+    └── payments/
         └── 2026/
             └── 07/
                 └── 11/
-                    └── inventory_20260711.csv
+                    └── payments_20260711.csv
 ```
 
 ---
@@ -83,12 +154,13 @@ bronze/
 silver/
 │
 └── retail/
-    │
     ├── customers/
-    ├── orders/
     ├── products/
-    ├── stores/
-    └── inventory/
+    ├── warehouses/
+    ├── inventory/
+    ├── orders/
+    ├── order_items/
+    └── payments/
 ```
 
 ---
@@ -99,80 +171,38 @@ silver/
 gold/
 │
 └── retail/
-    │
     ├── sales_summary/
     ├── customer_summary/
     ├── product_summary/
+    ├── inventory_summary/
     ├── regional_summary/
     └── executive_dashboard/
 ```
 
 ---
 
-## Archive Layer
+# 🏛️ High-Level Architecture
 
 ```text
-archive/
-│
-└── YYYY/
-    └── MM/
-        └── DD/
-```
-
----
-
-## Rejected Layer
-
-```text
-rejected/
-│
-├── missing_customer/
-├── duplicate_orders/
-├── invalid_product/
-└── invalid_records/
-```
-
----
-
-## Logs Layer
-
-```text
-logs/
-│
-├── adf/
-├── databricks/
-├── synapse/
-└── pipeline/
-```
-
----
-
-# 🏛️ Lakehouse Architecture
-
-```
-Source CSV Files
+MySQL (OLTP)
+        │
+        ▼
+Azure Data Factory
         │
         ▼
 Azure Data Lake Storage Gen2
         │
         ▼
 Bronze Layer
-(Raw Data)
         │
         ▼
-Azure Data Factory
-        │
-        ▼
-Azure Databricks
-(PySpark)
+Azure Databricks (PySpark)
         │
         ▼
 Silver Layer
-(Cleansed Data)
         │
         ▼
-Gold Layer
-(Business Ready Data)
+Gold Layer (Delta)
         │
         ▼
 Azure Synapse Analytics
@@ -181,21 +211,8 @@ Azure Synapse Analytics
 Semantic Model
         │
         ▼
-Power BI Dashboard
+Power BI
 ```
-
----
-
-# 🎯 Project Objectives
-
-- Build an enterprise-scale Azure Lakehouse architecture.
-- Implement Bronze, Silver and Gold data layers.
-- Develop automated ETL pipelines using Azure Data Factory.
-- Perform transformations using PySpark in Azure Databricks.
-- Store curated datasets in Delta Lake format.
-- Enable analytical queries using Azure Synapse.
-- Build reusable semantic models.
-- Create executive dashboards in Power BI.
 
 ---
 
@@ -208,6 +225,7 @@ Power BI Dashboard
 - Delta Lake
 - Azure Synapse Analytics
 - Power BI
+- MySQL
 - Python
 - PySpark
 - SQL
@@ -215,30 +233,41 @@ Power BI Dashboard
 
 ---
 
-# 📅 Project Status
+# 📅 Project Roadmap
 
 | Phase | Status |
 |--------|--------|
-| Phase 1 - Infrastructure | ✅ Completed |
-| Phase 2 - Data Engineering | ⏳ Planned |
-| Phase 3 - Analytics | ⏳ Planned |
-| Phase 4 - Production Readiness | ⏳ Planned |
+| Phase 1 – Foundation & Infrastructure | ✅ Completed |
+| Phase 2 – Enterprise Data Generation | ⏳ In Progress |
+| Phase 3 – Azure Data Factory Ingestion | ⏳ Planned |
+| Phase 4 – Bronze → Silver Transformation | ⏳ Planned |
+| Phase 5 – Gold Layer Analytics | ⏳ Planned |
+| Phase 6 – Synapse Analytics | ⏳ Planned |
+| Phase 7 – Semantic Model | ⏳ Planned |
+| Phase 8 – Power BI Dashboard | ⏳ Planned |
+| Phase 9 – Production Readiness | ⏳ Planned |
 
 ---
 
 # 📸 Screenshots
 
-Project screenshots are available in the **/screenshots** directory.
+Project screenshots are available under the **screenshots/** directory.
 
 ---
 
 # 📖 Documentation
 
-Detailed project documentation will be added under the **/docs** directory as each phase is completed.
+Detailed documentation is available under the **docs/** directory.
+
+Current documentation includes:
+
+- Source Schema v1.0
+
+Additional documentation will be added as each phase is completed.
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 **Sri Ram B**
 
