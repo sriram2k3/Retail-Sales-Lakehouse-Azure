@@ -1,0 +1,39 @@
+#Retail-Sales-Lakehouse-Pipeline project
+Synthetic Data Design - Business rules
+
+#Customer table
+- info data from Jan 1 2026 - July 11 2026
+- Customer only in India
+- Phone number should not include std code like +91
+- customer since date should be within the Jan 2026 - July 2026
+- Loyalty tier
+	- Gold - 65%
+	- Silver - 25%
+	- Bronze - 10%
+
+#Product table
+- categories within ['Electronics', 'Utensils', 'Food', Clothes' ,'Cosmetics']
+- mrp > unit_price > cost_price. price units in INR
+- brand and manufacturer can be foreign - no restrictions
+
+# Warehouse table
+- warehouses should be within India and inventory near stores
+- Cities count can be 2 per State.
+
+#Orders table
+- order date can be started after 2 days from Jan 1 2026
+- order_status keywords 'Pending', 'Confirmed' ,'Shipped' ,'Out for Delivery', 'Delivered', 'Cancelled', 'Returned'
+- planning to show gradually the business is increase over months. So initially Pending and Return should be more than eventually it should be less to showcase
+  customer satisfaction indirectly.
+- most status delivered, 3% cancelled, 1%returned
+
+#Order items
+- qty should be first less from Jan - March then eventually it increases to show profit and customer satisfaction
+- line total is INR system
+- discount should be based on customer loyalty tier and default product status in inventory to speed up sales and clear old stocks. Max discount should not exceed
+  20%
+#Payments
+- payment_status IN ('Paid','Pending','Failed','Refunded') - 70% Paid, 20% Pending, 7%Refunded, 3%Failed
+- payment type IN ('UPI','Card','Cash') - Since this store is getting modernized, initial days payment type is cash then eventually due to flexibility payment
+  option other categories also bloomed and platform/stores sees early payments or on spot payment processing speed increased avoid balance amount change issues and
+  cash locker maintenance.

@@ -1,0 +1,6 @@
+warehouse_id,warehouse_name,city,state
+WH001,Chennai Warehouse,Chennai,Tamil Nadu
+WH002,Bengaluru Warehouse,Bengaluru,Karnataka
+WH003,Hyderabad Warehouse,Hyderabad,Telangana
+WH004,Pune Warehouse,Pune,Maharashtra
+WH005,Mumbai Warehouse,Mumbai,Maharashtra
