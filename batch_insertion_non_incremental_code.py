@@ -3,6 +3,7 @@ import mysql.connector
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+from validate import validate_row
 load_dotenv()
 
 #fetching database details from .env
@@ -39,7 +40,7 @@ if conn:
 
     cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
     # truncate the table to reset auto increment pk in mysql
-    for table in load_order:
+    for table in reversed(load_order):
         table_name = table[1]
         cursor.execute(f"TRUNCATE TABLE {table_name}")
     conn.commit()
@@ -50,9 +51,8 @@ if conn:
         if file_name in available_files:
             print("Fetching file...", file_name)
             with open(available_files[file_name], "r", encoding="utf-8") as f:
-                table_name = table_name
                 print("Opening file: ", table_name)
-                dict_reader = csv.DictReader(f)
+                dict_reader = csv.DictReader(f) #each row as a dictionary
                 # dynamic sql query
                 headers = dict_reader.fieldnames
                 columns = ",".join(headers)
@@ -61,7 +61,13 @@ if conn:
                 print("Starting insertion to database...")
                 # batch processing code
                 for row in dict_reader:
-                    batch.append(row)
+                    is_valid, msg = validate_row(table_name, row)
+                    # in either cases we are appending the rows to mysql as these are bronze data and id is auto incremented. So losing a row creates incorrect mapping of data
+                    if is_valid:
+                        batch.append(row)
+                    else:
+                        print(f"{msg} - Row is invalid - {row}")
+                        batch.append(row)
                     # if len(batch) == batch_size:
                     #     cursor.executemany(query, batch)
                     #     conn.commit()
@@ -78,7 +84,7 @@ if conn:
                             for row in batch:
                                 try:
                                     #cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-                                    cursor.execute(f"TRUNCATE TABLE {table_name}")
+                                    #cursor.execute(f"TRUNCATE TABLE {table_name}")
                                     #cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
                                     cursor.execute(query,row)
                                 except mysql.connector.Error as err:
@@ -94,7 +100,7 @@ if conn:
                         for row in batch:
                             try:
                                 #cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-                                cursor.execute(f"TRUNCATE TABLE {table_name}")
+                                #cursor.execute(f"TRUNCATE TABLE {table_name}")
                                 #cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
                                 cursor.execute(query, row)
                             except mysql.connector.Error as err:

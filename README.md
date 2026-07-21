@@ -56,6 +56,21 @@ Completed
 - Source System Design
 - OLTP Schema v1.0 Finalized
 
+## ✅ Phase 2 - Enterprise Data Generation
+
+Completed
+
+- Business Requirement Analysis
+- Source System Design
+- OLTP Schema v1.0 Finalized
+- Enterprise Business Rules Defined
+- Synthetic Retail Dataset Generated
+- Python Batch CSV Loader Developed
+- Dynamic SQL Ingestion into MySQL
+- Batch Processing using `executemany()`
+- Basic Data Validation Framework
+- Environment Variable Configuration using `.env`
+
 ---
 
 # 🏢 Source System
@@ -227,6 +242,9 @@ Power BI
 - Power BI
 - MySQL
 - Python
+- mysql-connector-python
+- python-dotenv
+- CSV Processing
 - PySpark
 - SQL
 - Git & GitHub
@@ -236,9 +254,9 @@ Power BI
 # 📅 Project Roadmap
 
 | Phase | Status |
-|--------|--------|
+|--------|--|
 | Phase 1 – Foundation & Infrastructure | ✅ Completed |
-| Phase 2 – Enterprise Data Generation | ⏳ In Progress |
+| Phase 2 – Enterprise Data Generation | ✅ Completed |
 | Phase 3 – Azure Data Factory Ingestion | ⏳ Planned |
 | Phase 4 – Bronze → Silver Transformation | ⏳ Planned |
 | Phase 5 – Gold Layer Analytics | ⏳ Planned |
